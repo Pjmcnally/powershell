@@ -3,7 +3,7 @@ function main() {
 }
 
 function rename_with_lead_0() {
-    $path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\By Character" 
+    $path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\character"
     $files = Get-ChildItem $path -Recurse -Filter *.pdf
 
     Foreach($file in $files) {
@@ -11,6 +11,7 @@ function rename_with_lead_0() {
         Rename-Item $file.Fullname $name
     }
 }
+
 
 
 # for ($i=1; $i -lt 11; $i++) {
