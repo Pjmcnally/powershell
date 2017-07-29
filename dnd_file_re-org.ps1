@@ -1,15 +1,14 @@
-
-function add_lead_0($file) {
-    $name = $file.Name -replace '^(?<beg>[^\d]*)(?<num>\d{1}).pdf', '${beg}0${num}.pdf'
-    Rename-Item $file.Fullname $name
+function main() {
+    rename_with_lead_0
 }
 
-function main() {
+function rename_with_lead_0() {
     $path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\By Character" 
     $files = Get-ChildItem $path -Recurse -Filter *.pdf
 
     Foreach($file in $files) {
-        add_lead_0($file)
+        $name = $file.Name -replace '^(?<beg>[^\d]*)(?<num>\d{1}).pdf', '${beg}0${num}.pdf'
+        Rename-Item $file.Fullname $name
     }
 }
 
