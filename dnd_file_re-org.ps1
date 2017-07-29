@@ -13,6 +13,15 @@ function rename_with_lead_0() {
     }
 }
 
+function split_by_level() {
+    $inc_path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\character"
+    $out_path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\level"
+    $files = Get-ChildItem $inc_path -Recurse -Filter *.pdf
+
+    Foreach($file in $files) {
+        get_level_num($file.name)
+    }
+}
 
 function get_level_num($name) {
     $res = $name -match '(\d{2})'
