@@ -22,7 +22,7 @@ function split_by_level() {
     Foreach($file in $files) {
         $num = get_level_num($file.name)
         $dest = $out_path + "\" + $num
-        $dest
+        Copy-Item $file.Fullname $dest
     }
 }
 
@@ -30,25 +30,5 @@ function get_level_num($name) {
     $res = $name -match '(\d{2})'
     return $matches[1]
 }
-
-# for ($i=1; $i -lt 11; $i++) {
-#     $reg = '^.*' + $i + '.pdf$'
-#     $reg
-#     Foreach($file in $files) {
-#         $name = $file.Fullname
-#         if ($name -match $reg) {
-#             $name
-#         }
-#     }
-# }
-
-
-# Rename file to add leading 0
-# Foreach($file in $files) {
-#         $name = $file.Fullname
-#         if ($name -match $reg) {
-#             $name
-#         }
-#     }
 
 main
