@@ -1,7 +1,7 @@
 
 function add_lead_0($file) {
-    $name = $file.Fullname
-    $name -replace '^(?<beg>[^\d]*)(?<num>\d{1}).pdf', '${beg}0${num}.pdf'
+    $name = $file.Name -replace '^(?<beg>[^\d]*)(?<num>\d{1}).pdf', '${beg}0${num}.pdf'
+    Rename-Item $file.Fullname $name
 }
 
 function main() {
