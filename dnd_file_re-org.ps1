@@ -1,5 +1,6 @@
 function main() {
-    rename_with_lead_0
+    # rename_with_lead_0
+    split_by_level
 }
 
 function rename_with_lead_0() {
@@ -13,6 +14,10 @@ function rename_with_lead_0() {
 }
 
 
+function get_level_num($name) {
+    $res = $name -match '(\d{2})'
+    return $matches[1]
+}
 
 # for ($i=1; $i -lt 11; $i++) {
 #     $reg = '^.*' + $i + '.pdf$'
