@@ -20,10 +20,9 @@ function split_by_level() {
     $files = Get-ChildItem $inc_path -Recurse -Filter *.pdf
 
     Foreach($file in $files) {
-        num = get_level_num($file.name)
-        $dest = $out_path + "\" + num
+        $num = get_level_num($file.name)
+        $dest = $out_path + "\" + $num
         $dest
-
     }
 }
 
