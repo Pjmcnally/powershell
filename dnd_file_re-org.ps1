@@ -1,6 +1,7 @@
 function main() {
     # rename_with_lead_0
     split_by_level
+    "process is complete..."
 }
 
 function rename_with_lead_0() {
@@ -19,7 +20,10 @@ function split_by_level() {
     $files = Get-ChildItem $inc_path -Recurse -Filter *.pdf
 
     Foreach($file in $files) {
-        get_level_num($file.name)
+        num = get_level_num($file.name)
+        $dest = $out_path + "\" + num
+        $dest
+
     }
 }
 
