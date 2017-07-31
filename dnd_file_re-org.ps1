@@ -5,6 +5,7 @@ function main() {
 }
 
 function rename_with_lead_0() {
+    # Function to add leading 0 to single digit numbers in file names
     $path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\character"
     $files = Get-ChildItem $path -Recurse -Filter *.pdf
 
@@ -15,6 +16,7 @@ function rename_with_lead_0() {
 }
 
 function split_by_level() {
+    # Function to copy files into folders by level
     $inc_path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\character"
     $out_path = "C:\Users\Pjmcnally\Downloads\Generic Pregen Chars\level"
     $files = Get-ChildItem $inc_path -Recurse -Filter *.pdf
@@ -27,6 +29,7 @@ function split_by_level() {
 }
 
 function get_level_num($name) {
+    # function to pull level number out of file.
     $res = $name -match '(\d{2})'
     return $matches[1]
 }
