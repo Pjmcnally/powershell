@@ -1,4 +1,10 @@
-﻿function Merge-PDF {            
+﻿<#
+    This code is based off of two repos I found:
+        https://github.com/mikepfeiffer/PowerShell/blob/master/Merge-PDF.ps1
+        https://gist.github.com/ATZ0/95f9eb0a8f14339fa2fb
+#>
+
+function Merge-PDF {            
     Param($path, $filename)
     
     Add-Type -Path "C:\Users\Patrick\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll"                      
