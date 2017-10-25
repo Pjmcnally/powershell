@@ -16,11 +16,12 @@ function Merge-PDF {
     foreach($i in (Get-ChildItem $path *.pdf)) {
         $input = New-Object PdfSharp.Pdf.PdfDocument
         $input = $PdfReader::Open($i.fullname, $PdfDocumentOpenMode::Import)
+        $bookmark_title = $input.Internals.Catalog.Elements.GetDictionary("/Outlines").Elements.GetDictionary("/First").Elements.GetString("/Title")
         $page_count = 0
         ForEach($page in $input.Pages){
             $o_page = $output.AddPage($page)
             if($page_count -eq 0){
-                $outline = $output.Outlines.Add($i.Name, $o_page, $TRUE)
+                $outline = $output.Outlines.Add($bookmark_title, $o_page)
             }
             $page_count++
         }
