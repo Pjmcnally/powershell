@@ -26,7 +26,9 @@ function Merge-PDF {
         }
     }                        
             
-    $output.Save($filename)            
+    if($output.PageCount){
+        $output.Save($filename)
+    }
 }
 
 Merge-PDF -path C:\Users\Patrick\Desktop\test -filename "C:\Users\Patrick\Desktop\test\test.pdf"
