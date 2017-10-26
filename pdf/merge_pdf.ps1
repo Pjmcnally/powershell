@@ -19,7 +19,7 @@ function Merge-PDF {
     foreach($i in $in_files) {
         $input = New-Object PdfSharp.Pdf.PdfDocument
         $input = $PdfReader::Open($i.fullname, $PdfDocumentOpenMode::Import)
-        $bookmark_title = $input.Internals.Catalog.Elements.GetDictionary("/Outlines").Elements.GetDictionary("/First").Elements.GetString("/Title")
+        $bookmark_title = Get-BookMarkString -filename $i.name
         $page_count = 0
         ForEach($page in $input.Pages){
             $o_page = $output.AddPage($page)
@@ -34,5 +34,22 @@ function Merge-PDF {
         $output.Save($filename)
     }
 }
+
+Function Get-BookMarkString {
+    Param($filename)
+
+    $regex = '^(?<c_num>\d+)-(?<a_num>\d+)-(?<title>[\w-]+)-(?<d_code>[A-Z_]+)-(?<date>\d+).*\.pdf$'
+    if ($filename -match $regex) {
+        $c_num = $matches.c_num
+        $a_num = $matches.a_num
+        $title = $matches.title -replace '_', ' '
+        $d_code = $mathes.d_code
+        $date = $matches.date -replace '^(?<y>\d{4})(?<m>\d{2})(?<d>\d{2})$', '${y}-${m}-${d}'
+
+        $out_string = "{0} {1} {2} {3}" -f($c_num, $a_num, $title, $date)
+        return $out_string
+    }
+}
+
 
 Merge-PDF -path C:\Users\Patrick\Desktop\test -filename "C:\Users\Patrick\Desktop\test\test.pdf"
