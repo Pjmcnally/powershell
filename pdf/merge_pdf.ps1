@@ -7,13 +7,16 @@
 function Merge-PDF {            
     Param($path, $filename)
     
+    # Setup PdfSharp
     Add-Type -Path "C:\Users\Patrick\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll"                      
+    $PdfReader = [PdfSharp.Pdf.IO.PdfReader]
+    $PdfDocumentOpenMode = [PdfSharp.Pdf.IO.PdfDocumentOpenMode]
 
+    # Create output file
     $output = New-Object PdfSharp.Pdf.PdfDocument
-    $PdfReader = [PdfSharp.Pdf.IO.PdfReader]            
-    $PdfDocumentOpenMode = [PdfSharp.Pdf.IO.PdfDocumentOpenMode]                        
             
-    foreach($i in (Get-ChildItem $path *.pdf)) {
+    $in_files = Get-ChildItem $path *.pdf
+    foreach($i in $in_files) {
         $input = New-Object PdfSharp.Pdf.PdfDocument
         $input = $PdfReader::Open($i.fullname, $PdfDocumentOpenMode::Import)
         $bookmark_title = $input.Internals.Catalog.Elements.GetDictionary("/Outlines").Elements.GetDictionary("/First").Elements.GetString("/Title")
