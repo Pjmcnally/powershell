@@ -6,7 +6,7 @@ Import-Module posh-git
 $GitPromptSettings.DefaultPromptPrefix = '`n'
 $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
 
-# Import systemVariables file ([enum]envs, [hashtable]env_dict)
+# Import systemVariables file (includes vars: [enum]envs, [hashtable]env_dict)
 . $HOME\Documents\WindowsPowerShell\systemVariables.ps1
 
 # My functions
