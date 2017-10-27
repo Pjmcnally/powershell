@@ -12,8 +12,8 @@ $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) 
 # My functions
 function workon {
 <#
-    This function allows me to switch locations and environments with a prefaced 'workon' command
-    I am used to this structure from Linux and python virtualenv)
+    This function allows me to switch locations and environments with a
+    prefaced 'workon' command. This is similar to Linux and python virtualenv
 #>
     param(
         [Parameter(
@@ -22,9 +22,6 @@ function workon {
             HelpMessage="Enter the project name or 'help' for list of projects.")]
         [envs]$env_name
     )
-
-    # To keep this modular $dict is now linked to an external file I can modify
-    # on a system by system basis while keep the rest of this func the same.
 
     # Convert param to string to use as dict key
     $project = ($env_name.ToString())
