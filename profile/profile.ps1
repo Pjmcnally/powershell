@@ -26,17 +26,18 @@ function workon {
     . $HOME\Documents\WindowsPowerShell\systemVariables.ps1
     $dict = $env_dict
 
-    if ($project -eq 'help') {                          # Check if name is help
+    if ($project -eq 'help') {  # Display help text
         Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
         Write-Host ("{0,-15}{1}" -f "============", "========")
         $dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
             Write-Host ("{0,-15}{1}" -f $_.key, $_.value)
         }
-    } elseif ($dict.ContainsKey($project)) {            # Run command associated with key
-        $func = $dict[$project]
-        invoke-expression $func
-        return
-    } else {
-        Write-Host "Not a valid command for workon"     # Error out on invalid command
+    } else {  # Run command associated with key
+        Try {
+            invoke-expression ($dict.$project) -ErrorAction stop
+            return
+        } Catch {  # Error out on invalid command
+            Write-Host "Not a valid command for workon"
+        }
     }
 }
