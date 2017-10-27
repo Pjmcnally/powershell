@@ -17,7 +17,7 @@ function workon {
             Mandatory=$True,
             Position=0,
             HelpMessage="Enter the project name or 'help' for list of projects.")]
-        [ValidateSet('ahk', 'help', 'pshell')]
+        [ValidateSet('help', 'ahk', 'pshell', 'devops', 'iptools')]
         $project
     )
 
