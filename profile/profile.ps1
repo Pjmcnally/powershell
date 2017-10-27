@@ -17,15 +17,14 @@ function workon {
             Mandatory=$True,
             Position=0,
             HelpMessage="Enter the project name or 'help' for list of projects.")]
-        [ValidateSet('<name of project>')]
+        [ValidateSet('ahk', 'help', 'pshell')]
         $project
     )
 
-    # This dict contains my aliases and their coresponding functions
-    # This dict will change based on the system and the virtualenv/projects on that system
-    $dict = @{
-        '<name of project>' = '<code to run to workon project>'
-    }
+    # To keep this modular $dict is now linked to an external file I can modify
+    # on a system by system basis while keep the rest of this func the same.
+    . $HOME\Documents\WindowsPowerShell\systemVariables.ps1
+    $dict = $env_dict
 
     if ($project -eq 'help') {                          # Check if name is help
         Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
