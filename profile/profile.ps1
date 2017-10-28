@@ -1,3 +1,6 @@
+# TODO: Include files directly in Git Repo so I don't have to copy back and forth
+# See: https://docs.microsoft.com/en-us/powershell/wmf/5.0/feedback_symbolic
+
 # Get rid of annoying beeping on backspace
 Set-PSReadlineOption -BellStyle None
 
