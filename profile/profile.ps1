@@ -10,10 +10,24 @@ $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) 
 # Import systemVariables file (includes var: [hashtable]env_dict)
 . $HOME\Documents\WindowsPowerShell\envs.ps1
 
+# Build list of envs and "help" command
+$env_list = (($env_dict.keys) + 'help')
+
+# Build env_string as Here-String with 'help' + all dict keys from env_dict
+$env_string = @"
+Enum envs {
+$(ForEach($item in $env_list){"`t$item`n"})
+}
+"@
+
+# Invoke env_string to create Enum envs and cleanup vars
+Invoke-Expression $env_string
+Remove-Variable env_string
+Remove-Variable env_list
+
 # This function allows me to switch locations and environments with a
 # prefaced 'workon' command. This is similar to Linux and python virtualenv
 function workon {
-    # Define single param (env_name)
     param(
         [Parameter(
             Mandatory=$True,
