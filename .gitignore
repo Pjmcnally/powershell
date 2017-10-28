@@ -1,2 +1,2 @@
 # ignore system variables
-systemVariables.ps1
+envs.ps1
