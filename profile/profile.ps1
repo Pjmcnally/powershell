@@ -19,7 +19,7 @@ $env_list = (($env_dict.keys) + 'help')
 # Build env_string as Here-String with 'help' + all dict keys from env_dict
 $env_string = @"
 Enum envs {
-$(ForEach($item in $env_list){"`t$item`n"})
+$(ForEach($item in ($env_list| Sort-Object)){"`t$item`n"})
 }
 "@
 
