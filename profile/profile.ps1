@@ -6,15 +6,14 @@ Import-Module posh-git
 $GitPromptSettings.DefaultPromptPrefix = '`n'
 $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
 
-# Import systemVariables file (includes vars: [enum]envs, [hashtable]env_dict)
+
+# Import systemVariables file (includes var: [hashtable]env_dict)
 . $HOME\Documents\WindowsPowerShell\envs.ps1
 
-# My functions
+# This function allows me to switch locations and environments with a
+# prefaced 'workon' command. This is similar to Linux and python virtualenv
 function workon {
-<#
-    This function allows me to switch locations and environments with a
-    prefaced 'workon' command. This is similar to Linux and python virtualenv
-#>
+    # Define single param (env_name)
     param(
         [Parameter(
             Mandatory=$True,
