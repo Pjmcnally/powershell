@@ -1,4 +1,4 @@
-function timer_wrapper($func, $arg_list=$Null) {
+function timer_wrapper($func, $name="", $arg_list=$Null) {
     $start = Get-Date
 
     if ($arg_list) {
@@ -9,7 +9,7 @@ function timer_wrapper($func, $arg_list=$Null) {
 
     $end = Get-Date
     $opp_time = New-Timespan $start $end
-    Write-Host "`r`n`r`nOpperation Complete:"
+    Write-Host ("`r`n`r`nOpperation Complete: $name"
     Write-Host ("Time required = {0:g}`r`n`r`n" -f $opp_time)
 
     return $return
