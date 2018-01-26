@@ -1,6 +1,8 @@
 # TODO: Include files directly in Git Repo so I don't have to copy back and forth
 # See: https://docs.microsoft.com/en-us/powershell/wmf/5.0/feedback_symbolic
 
+# TODO: https://github.com/dahlbyk/posh-git/wiki/Customizing-Your-PowerShell-Prompt
+
 # Get rid of annoying beeping on backspace
 Set-PSReadlineOption -BellStyle None
 
@@ -8,6 +10,12 @@ Set-PSReadlineOption -BellStyle None
 Import-Module posh-git
 $GitPromptSettings.DefaultPromptPrefix = '`n'
 $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
+
+# # VirtualEnvWrapper
+# # Found at https://github.com/regisf/virtualenvwrapper-powershell/
+# $MyDocuments = [Environment]::GetFolderPath("mydocuments")
+# $WORKON_HOME = "~/Programming/Envs"
+# Import-Module VirtualEnvWrapper
 
 
 # Import systemVariables file (includes var: [hashtable]env_dict)
