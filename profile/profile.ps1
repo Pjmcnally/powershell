@@ -65,3 +65,12 @@ function workon {
         }
     }
 }
+
+function deactivate {
+    <#
+        This is a placeholder until I activate a vitural env and the real
+        deactivate function is created.
+
+        This function does nothing.
+    #>
+}
