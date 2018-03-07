@@ -62,3 +62,4 @@ if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
 }
 
 # SIG # Begin signature block
+# SIG GOES HERE. Leave this section from original when replacing file.
