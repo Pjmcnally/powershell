@@ -65,3 +65,35 @@ function workon {
         }
     }
 }
+
+function Get-Out {
+    # This script is a quick way to remove personal data from my computer
+    # It only removes personal data and doesn't affect work data in any way.
+
+    <#  Below is an old Dos command which deletes a folder and all contents
+        rd = Remove dictory, /s = recurse, /q = quiet
+
+        I am using this because the -Recurse flag on Remove-Item is broken
+        and frequently generates errors.
+    #>
+
+    # Remove personal programming folder.
+    Write-Host "`n`rDeleting Programming..."
+    &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\programming"
+    Write-Host "Process Complete: Delete programming folder"
+
+    # Delete personal PowerShell Config Folder.
+    Write-Host "`n`rDeleting Windows PowerShell Config..."
+    &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\WindowsPowerShell"
+    Write-Host "Process Complete: Delete Windows PowerShell Config"
+
+    # Delete folder storing Windows Backgrounds.
+    Write-Host "`n`rDeleting Desktop Backgrounds Folder..."
+    &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\Desktop Backgrounds"
+    Write-Host "Process Complete: Delete Desktop Backgrounds Folder"
+
+    # Delete main AHK launching file.
+    Write-Host "`n`rDeleting Main AHK file..."
+    Remove-Item "C:\Users\Patrick\Documents\Autohotkey.ahk" -Force
+    Write-Host "Process Complete: Delete Main AHK file"
+}
