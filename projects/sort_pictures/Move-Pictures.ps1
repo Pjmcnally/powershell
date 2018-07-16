@@ -1,4 +1,4 @@
-function Get-ShortDateTimeFormat () {
+function Get-ShortDateTimeFormat() {
     # Setup DateTime format
     # Extract the default Date/Time formatting from the local computer's "Culture" settings, and then create the format to use when parsing the date/time information pull from AD.
     $CultureDateTimeFormat = (Get-Culture).DateTimeFormat
@@ -9,7 +9,7 @@ function Get-ShortDateTimeFormat () {
     Return $DateTimeFormat
 }
 
-function Move-Pictures () {
+function Move-Pictures() {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$True, Position=0)]
