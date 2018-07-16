@@ -1,2 +1,5 @@
 # ignore system variables
 envs.ps1
+
+# pycache
+__pycache__/
