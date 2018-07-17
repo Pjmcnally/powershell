@@ -3,6 +3,13 @@
 
 # TODO: https://github.com/dahlbyk/posh-git/wiki/Customizing-Your-PowerShell-Prompt
 
+# TODO: Setup virtualenv wrapper (or just keep using my homebrewed system)
+# # VirtualEnvWrapper
+# # Found at https://github.com/regisf/virtualenvwrapper-powershell/
+# $MyDocuments = [Environment]::GetFolderPath("mydocuments")
+# $WORKON_HOME = "~/Programming/Envs"
+# Import-Module VirtualEnvWrapper
+
 # Get rid of annoying beeping on backspace
 Set-PSReadlineOption -BellStyle None
 
@@ -11,12 +18,8 @@ Import-Module posh-git
 $GitPromptSettings.DefaultPromptPrefix = '`n'
 $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
 
-# # VirtualEnvWrapper
-# # Found at https://github.com/regisf/virtualenvwrapper-powershell/
-# $MyDocuments = [Environment]::GetFolderPath("mydocuments")
-# $WORKON_HOME = "~/Programming/Envs"
-# Import-Module VirtualEnvWrapper
-
+# Set default encoding to UTF-8
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
 # Import systemVariables file (includes var: [hashtable]env_dict)
 . $HOME\Documents\WindowsPowerShell\envs.ps1
