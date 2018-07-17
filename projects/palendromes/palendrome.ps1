@@ -1,4 +1,4 @@
-﻿function main() {
+function main() {
     $p = 0
     $words = Get-Content ".\dicts\alphabetical.txt"
     ForEach($w in $words) {
