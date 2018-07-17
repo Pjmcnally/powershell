@@ -12,7 +12,7 @@ def get_palindromes(file):
     return palindromes
 
 def main():
-    in_file = ".\\enable1.txt"
+    in_file = ".\\dicts\\alphabetical.txt"
     p = get_palindromes(in_file)
 
     return len(p)

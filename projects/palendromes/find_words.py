@@ -26,10 +26,10 @@ def get_palindromes(file, letters):
     return words
 
 def main():
-    in_file = "C:\\Users\\Patrick\\Documents\\programming\\powershell\\projects\\palendromes\\enable1.txt"
+    in_file = ".\\dicts\\alphabetical.txt"
     p = get_palindromes(in_file, "abcdefg")
 
-    return p
+    return len(p)
 
 if __name__ == '__main__':
     print(main())
