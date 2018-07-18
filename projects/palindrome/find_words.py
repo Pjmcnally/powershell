@@ -1,7 +1,7 @@
 from collections import Counter
 import sys
 
-def get_palindromes(file, letters):
+def find_words(file, letters):
     words = []
     l_count = Counter(letters)
 
@@ -27,7 +27,7 @@ def get_palindromes(file, letters):
 
 def main():
     in_file = ".\\dicts\\alphabetical.txt"
-    p = get_palindromes(in_file, "abcdefg")
+    p = find_words(in_file, "vexillology")
 
     return len(p)
 
