@@ -1,5 +1,5 @@
 from collections import Counter
-import sys
+
 
 def find_words(file, letters):
     words = []
@@ -25,11 +25,13 @@ def find_words(file, letters):
 
     return words
 
+
 def main():
     in_file = ".\\dicts\\alphabetical.txt"
     p = find_words(in_file, "vexillology")
 
     return len(p)
+
 
 if __name__ == '__main__':
     print(main())
