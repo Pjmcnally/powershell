@@ -11,11 +11,13 @@ def get_palindromes(file):
 
     return palindromes
 
+
 def main():
     in_file = ".\\dicts\\alphabetical.txt"
     p = get_palindromes(in_file)
 
     return len(p)
+
 
 if __name__ == '__main__':
     print(main())
