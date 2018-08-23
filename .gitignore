@@ -3,3 +3,6 @@ envs.ps1
 
 # pycache
 __pycache__/
+
+# VS Code stuff
+.vscode
