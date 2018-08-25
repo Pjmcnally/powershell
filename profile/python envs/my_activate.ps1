@@ -60,6 +60,3 @@ if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     #     & $function:_old_virtual_prompt
     # }
 }
-
-# SIG # Begin signature block
-# SIG GOES HERE. Leave this section from original when replacing file.
