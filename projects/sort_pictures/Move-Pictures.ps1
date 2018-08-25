@@ -24,9 +24,9 @@ function Move-Pictures() {
     $objFolder = $objShell.namespace($sourceFoldPath)
 
     # Get DateTimeFormat for interpreting system dates
-    $shortDatetimeFormat = Get-ShortDateTimeFormat
+    # $shortDatetimeFormat = Get-ShortDateTimeFormat
 
-    # Set dateformat for filename dates
+    # Set date format for filename dates
     $filenameDateFormat = 'yyyy-MM-dd'
 
     # Iterate over files
@@ -51,7 +51,7 @@ function Move-Pictures() {
         } else {
             $fileName = $objFolder.getDetailsOf($File, 0)
             $m = $fileName -Match "(?<date>\d{4}-\d{2}-\d{2})"
-            if ($matches) {
+            if ($m) {
                 $strDate = $matches.Date
 
                 # Convert date to datetime
