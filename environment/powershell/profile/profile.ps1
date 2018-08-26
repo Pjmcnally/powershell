@@ -9,6 +9,9 @@ $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) 
 # Set default encoding to UTF-8
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
+# Set aliases
+Set-Alias -Name Which -Value Get-Command
+
 # Import systemVariables file (includes var: [hashtable]env_dict)
 . $HOME\Documents\WindowsPowerShell\envs.ps1
 
