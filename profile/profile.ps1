@@ -1,6 +1,3 @@
-# TODO: Include files directly in Git Repo so I don't have to copy back and forth
-# See: https://docs.microsoft.com/en-us/powershell/wmf/5.0/feedback_symbolic
-
 # TODO: https://github.com/dahlbyk/posh-git/wiki/Customizing-Your-PowerShell-Prompt
 
 # TODO: Setup virtualenv wrapper (or just keep using my homebrewed system)
