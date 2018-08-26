@@ -6,12 +6,12 @@
 # TODO: Setup virtualenv wrapper (or just keep using my homebrewed system)
 # # VirtualEnvWrapper
 # # Found at https://github.com/regisf/virtualenvwrapper-powershell/
-# $MyDocuments = [Environment]::GetFolderPath("mydocuments")
+# $MyDocuments = [Environment]::GetFolderPath("MyDocuments")
 # $WORKON_HOME = "~/Programming/Envs"
 # Import-Module VirtualEnvWrapper
 
 # Get rid of annoying beeping on backspace
-Set-PSReadlineOption -BellStyle None
+Set-PSReadLineOption -BellStyle None
 
 # Posh Git Settings:
 Import-Module posh-git
@@ -24,8 +24,10 @@ $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 # Import systemVariables file (includes var: [hashtable]env_dict)
 . $HOME\Documents\WindowsPowerShell\envs.ps1
 
-# Build list of envs and "help" command
-$env_list = (($env_dict.keys) + 'help')
+# Build list of envs. Add "help" and "all" commands
+$env_list = $env_dict.keys
+$env_list += "help"
+$env_list += "all"
 
 # Build env_string as Here-String with 'help' + all dict keys from env_dict
 $env_string = @"
@@ -54,11 +56,9 @@ function workon {
     $project = ($env_name.ToString())
 
     if ($project -eq 'help') {  # Display help text
-        Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
-        Write-Host ("{0,-15}{1}" -f "============", "========")
-        $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
-            Write-Host ("{0,-15}{1}" -f $_.key, $_.value)
-        }
+        Show-help $env_dict
+    } elseif ($project -eq 'all') {  # Update all projects
+        Update-All $env_dict
     } else {  # Run command associated with key
         Try {
             invoke-expression ($env_dict.$project) -ErrorAction stop
@@ -69,12 +69,31 @@ function workon {
     }
 }
 
+function Show-Help($envs) {
+    Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
+    Write-Host ("{0,-15}{1}" -f "============", "========")
+    $envs.GetEnumerator() | Sort-Object Name | ForEach-Object {
+        Write-Host ("{0,-15}{1}" -f $_.key, $_.value)
+    }
+}
+
+function Update-All ($envs) {
+    $envs.GetEnumerator() | Sort-Object Name | ForEach-Object {
+        Write-Host "`r`nUpdating $($_.key)"
+        Write-Host "========================="
+        Workon $_.key
+        git fetch --all --prune
+        git pull
+        git push
+    }
+}
+
 function Get-Out {
     # This script is a quick way to remove personal data from my computer
     # It only removes personal data and doesn't affect work data in any way.
 
     <#  Below is an old Dos command which deletes a folder and all contents
-        rd = Remove dictory, /s = recurse, /q = quiet
+        rd = Remove directory, /s = recurse, /q = quiet
 
         I am using this because the -Recurse flag on Remove-Item is broken
         and frequently generates errors.
