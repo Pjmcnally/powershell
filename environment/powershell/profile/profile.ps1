@@ -1,10 +1,3 @@
-# TODO: Setup virtualenv wrapper (or just keep using my homebrewed system)
-# # VirtualEnvWrapper
-# # Found at https://github.com/regisf/virtualenvwrapper-powershell/
-# $MyDocuments = [Environment]::GetFolderPath("MyDocuments")
-# $WORKON_HOME = "~/Programming/Envs"
-# Import-Module VirtualEnvWrapper
-
 # Get rid of annoying beeping on backspace
 Set-PSReadLineOption -BellStyle None
 
