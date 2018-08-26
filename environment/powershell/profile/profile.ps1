@@ -1,5 +1,3 @@
-# TODO: https://github.com/dahlbyk/posh-git/wiki/Customizing-Your-PowerShell-Prompt
-
 # TODO: Setup virtualenv wrapper (or just keep using my homebrewed system)
 # # VirtualEnvWrapper
 # # Found at https://github.com/regisf/virtualenvwrapper-powershell/
