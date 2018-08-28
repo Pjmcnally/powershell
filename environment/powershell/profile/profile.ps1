@@ -70,9 +70,10 @@ function Show-Help($envs) {
 
 function Update-All ($envs) {
     $envs.GetEnumerator() | Sort-Object Name | ForEach-Object {
-        Write-Host "`r`nUpdating $($_.key)"
-        Write-Host "========================="
         Workon $_.key
+        Write-Host "`r`nUpdating $($_.key)"
+        Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
+        Write-Host "========================="
         git fetch --all --prune
         git pull
         git push
