@@ -77,6 +77,10 @@ function Update-All ($envs) {
         git pull
         git push
     }
+
+    # Reset everything back to normal
+    Set-Location ~
+    if(test-path function:deactivate) {deactivate}
 }
 
 function Get-Out {
