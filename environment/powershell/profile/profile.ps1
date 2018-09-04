@@ -1,36 +1,4 @@
-# Get rid of annoying beeping on backspace
-Set-PSReadLineOption -BellStyle None
-
-# Posh Git Settings:
-Import-Module posh-git
-$GitPromptSettings.DefaultPromptPrefix = '`n'
-$GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
-
-# Set default encoding to UTF-8
-$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
-
-# Set aliases
-Set-Alias -Name Which -Value Get-Command
-
-# Import systemVariables file (includes var: [hashtable]env_dict)
-. $HOME\Documents\WindowsPowerShell\envs.ps1
-
-# Build list of envs. Add "help" and "all" commands
-$env_list = $env_dict.keys
-$env_list += "help"
-$env_list += "all"
-
-# Build env_string as Here-String with 'help' + all dict keys from env_dict
-$env_string = @"
-Enum envs {
-$(ForEach($item in ($env_list| Sort-Object)){"`t$item`n"})
-}
-"@
-
-# Invoke env_string to create Enum envs and cleanup vars
-Invoke-Expression $env_string
-Remove-Variable env_string
-Remove-Variable env_list
+<#  Define functions for Powershell #>
 
 # This function allows me to switch locations and environments with a
 # prefaced 'workon' command. This is similar to Linux and python virtualenv
@@ -136,4 +104,41 @@ Function Get-PowerShellRelease {
     $ProgressPreference = $progress
 }
 
+<# Commands to run before every session. #>
+
+# Get rid of annoying beeping on backspace
+Set-PSReadLineOption -BellStyle None
+
+# Posh Git Settings:
+Import-Module posh-git
+$GitPromptSettings.DefaultPromptPrefix = '`n'
+$GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
+
+# Set default encoding to UTF-8
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+
+# Set aliases
+Set-Alias -Name Which -Value Get-Command
+
+# Import systemVariables file (includes var: [hashtable]env_dict)
+. $HOME\Documents\WindowsPowerShell\envs.ps1
+
+# Build list of envs. Add "help" and "all" commands
+$env_list = $env_dict.keys
+$env_list += "help"
+$env_list += "all"
+
+# Build env_string as Here-String with 'help' + all dict keys from env_dict
+$env_string = @"
+Enum envs {
+$(ForEach($item in ($env_list| Sort-Object)){"`t$item`n"})
+}
+"@
+
+# Invoke env_string to create Enum envs and cleanup vars
+Invoke-Expression $env_string
+Remove-Variable env_string
+Remove-Variable env_list
+
 Get-PowerShellRelease
+Set-Location ~
