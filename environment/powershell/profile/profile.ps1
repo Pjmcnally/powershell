@@ -85,16 +85,21 @@ function Get-Out {
 }
 
 Function Get-PowerShellRelease {
-    <# Pulled from: http://www.virtu-al.net/2017/03/27/powershell-core-date/ #>#>
+    <# Pulled from: http://www.virtu-al.net/2017/03/27/powershell-core-date/
+
+    Look into this https://github.com/jdhitsolutions/PSReleaseTools as a
+    way to download and install new versions.
+    #>
+
     if ($PSVersionTable.PSVersion.Major -le 5) {
         return
     }
     #Using this to get rid of the nasty output Invoke-WebRequest gives you in PowerShell on the Mac
     $progress = $ProgressPreference
     $ProgressPreference = "SilentlyContinue"
-    $JSON = Invoke-WebRequest "https://api.github.com/repos/powershell/powershell/releases/latest"| ConvertFrom-Json
+    $JSON = Invoke-WebRequest "https://api.github.com/repos/powershell/powershell/releases/latest" | ConvertFrom-Json
     If ($PSVersionTable.GitCommitId) {
-        If ($JSON.tag_name -ne $PSVersionTable.GitCommitId) {
+        If ($JSON.tag_name -ne "v$($PSVersionTable.GitCommitId)") {
             Write-Output "New version of PowerShell available!"
             $JSON.body
         } Else {
