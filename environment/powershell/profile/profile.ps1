@@ -112,6 +112,7 @@ Function Get-PowerShellRelease {
 <# Commands to run before every session. #>
 
 # Get rid of annoying beeping on backspace
+Import-Module -Name PSReadLine
 Set-PSReadLineOption -BellStyle None
 
 # Posh Git Settings:
