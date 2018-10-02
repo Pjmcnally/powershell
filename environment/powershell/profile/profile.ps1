@@ -43,6 +43,7 @@ function Update-All ($envs) {
         Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
         Write-Host "========================="
         git fetch --all --prune
+        git checkout master
         git pull
         git push
     }
