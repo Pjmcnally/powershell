@@ -69,16 +69,6 @@ function Get-Out {
     &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\programming"
     Write-Host "Process Complete: Delete programming folder"
 
-    # Delete personal PowerShell Config Folder.
-    Write-Host "`n`rDeleting Windows PowerShell Config..."
-    &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\WindowsPowerShell"
-    Write-Host "Process Complete: Delete Windows PowerShell Config"
-
-    # Delete folder storing Windows Backgrounds.
-    Write-Host "`n`rDeleting Desktop Backgrounds Folder..."
-    &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\Desktop Backgrounds"
-    Write-Host "Process Complete: Delete Desktop Backgrounds Folder"
-
     # Delete main AHK launching file.
     Write-Host "`n`rDeleting Main AHK file..."
     Remove-Item "C:\Users\Patrick\Documents\Autohotkey.ahk" -Force
