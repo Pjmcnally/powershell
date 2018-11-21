@@ -6,3 +6,6 @@ __pycache__/
 
 # VS Code stuff
 .vscode
+
+# Secret stuff
+/secret/
