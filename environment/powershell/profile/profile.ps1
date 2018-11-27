@@ -138,4 +138,3 @@ Remove-Variable env_string
 Remove-Variable env_list
 
 Get-PowerShellRelease
-Set-Location ~
