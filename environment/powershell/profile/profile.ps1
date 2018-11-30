@@ -118,7 +118,7 @@ $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 Set-Alias -Name Which -Value Get-Command
 
 # Import systemVariables file (includes var: [hashtable]env_dict)
-. $HOME\Documents\WindowsPowerShell\envs.ps1
+. $(Join-Path ($profile.currentUserAllHosts | Split-Path -Parent) "envs.ps1")
 
 # Build list of envs. Add "help" and "all" commands
 $env_list = $env_dict.keys
