@@ -9,7 +9,7 @@ Symbolic links allow me to have files inside my repo that are also accessible ou
 ### Windows PowerShell 5.x
 ```
 $userFolder = Resolve-Path "~"
-$myDocs = [environment]::getfolderpath("mydocuments")
+$myDocs = [environment]::GetFolderPath("MyDocuments")
 new-item `
     -ItemType SymbolicLink `
     -Path (Join-Path $myDocs WindowsPowerShell) `
@@ -25,7 +25,7 @@ new-item `
 ### Windows PowerShell Core (6.x)
 ```
 $userFolder = Resolve-Path "~"
-$myDocs = [environment]::getfolderpath("mydocuments")
+$myDocs = [environment]::getFolderPath("MyDocuments")
 new-item `
     -ItemType SymbolicLink `
     -Path (Join-Path $myDocs PowerShell) `
