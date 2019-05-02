@@ -50,7 +50,7 @@ function Update-All ($envs) {
 
     # Reset everything back to normal
     Set-Location ~
-    if(test-path function:deactivate) {deactivate}
+    if(Test-Path function:deactivate) {deactivate}
 }
 
 Function Get-PowerShellRelease {
@@ -79,7 +79,6 @@ Function Get-PowerShellRelease {
 }
 
 <# Commands to run before every session. #>
-
 # Get rid of annoying beeping on backspace
 Import-Module -Name PSReadLine
 Set-PSReadLineOption -BellStyle None
