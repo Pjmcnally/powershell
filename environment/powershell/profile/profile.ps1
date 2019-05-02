@@ -53,28 +53,6 @@ function Update-All ($envs) {
     if(test-path function:deactivate) {deactivate}
 }
 
-function Get-Out {
-    # This script is a quick way to remove personal data from my computer
-    # It only removes personal data and doesn't affect work data in any way.
-
-    <#  Below is an old Dos command which deletes a folder and all contents
-        rd = Remove directory, /s = recurse, /q = quiet
-
-        I am using this because the -Recurse flag on Remove-Item is broken
-        and frequently generates errors.
-    #>
-
-    # Remove personal programming folder.
-    Write-Host "`n`rDeleting Programming..."
-    &cmd.exe /c rd /s /q "C:\Users\Patrick\Documents\programming"
-    Write-Host "Process Complete: Delete programming folder"
-
-    # Delete main AHK launching file.
-    Write-Host "`n`rDeleting Main AHK file..."
-    Remove-Item "C:\Users\Patrick\Documents\Autohotkey.ahk" -Force
-    Write-Host "Process Complete: Delete Main AHK file"
-}
-
 Function Get-PowerShellRelease {
     <# Pulled from: http://www.virtu-al.net/2017/03/27/powershell-core-date/
 
