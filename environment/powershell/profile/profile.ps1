@@ -15,9 +15,26 @@ function workon {
     $project = ($env_name.ToString())
 
     if ($project -eq 'help') {  # Display help text
-        Show-help $env_dict
+        Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
+        Write-Host ("{0,-15}{1}" -f "============", "========")
+        $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
+            Write-Host ("{0,-15}{1}" -f $_.key, $_.value)
+        }
     } elseif ($project -eq 'all') {  # Update all projects
-        Update-All $env_dict
+        $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
+            Workon $_.key
+            Write-Host "`r`nUpdating $($_.key)"
+            Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
+            Write-Host "========================="
+            git fetch --all --prune
+            git checkout master
+            git pull
+            git push
+        }
+
+        # Reset everything back to normal
+        Set-Location ~
+        if(Test-Path function:deactivate) {deactivate}
     } else {  # Run command associated with key
         Try {
             invoke-expression ($env_dict.$project) -ErrorAction stop
@@ -26,31 +43,6 @@ function workon {
             Write-Host "Not a valid command for workon"
         }
     }
-}
-
-function Show-Help($envs) {
-    Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
-    Write-Host ("{0,-15}{1}" -f "============", "========")
-    $envs.GetEnumerator() | Sort-Object Name | ForEach-Object {
-        Write-Host ("{0,-15}{1}" -f $_.key, $_.value)
-    }
-}
-
-function Update-All ($envs) {
-    $envs.GetEnumerator() | Sort-Object Name | ForEach-Object {
-        Workon $_.key
-        Write-Host "`r`nUpdating $($_.key)"
-        Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
-        Write-Host "========================="
-        git fetch --all --prune
-        git checkout master
-        git pull
-        git push
-    }
-
-    # Reset everything back to normal
-    Set-Location ~
-    if(Test-Path function:deactivate) {deactivate}
 }
 
 Function Get-PowerShellRelease {
@@ -79,10 +71,6 @@ Function Get-PowerShellRelease {
 }
 
 <# Commands to run before every session. #>
-# Get rid of annoying beeping on backspace
-Import-Module -Name PSReadLine
-Set-PSReadLineOption -BellStyle None
-
 # Posh Git Settings:
 Import-Module posh-git
 $GitPromptSettings.DefaultPromptPrefix = '`n'
@@ -91,13 +79,24 @@ $GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) 
 # Set default encoding to UTF-8
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
-# Set aliases
-Set-Alias -Name Which -Value Get-Command
+# Build dict containing list of all programming projects. All are located in
+# ~/Programming folder. Any folders that exist outside of this folder can be
+# symbolically linked back to this folder.
+$env_dict = @{}
+$folds = Get-ChildItem "~/Programming"
+foreach ($fold in $folds) {
+    if (Test-Path (Join-Path $fold.FullName ".venv")) {
+        $script = "& $(Join-Path $fold.FullName ".venv\Scripts\activate.ps1")"
+    } else {
+        $script = "if (test-path function:deactivate) {deactivate};"
+    }
 
-# Import systemVariables file (includes var: [hashtable]env_dict)
-. $(Join-Path ($profile.currentUserAllHosts | Split-Path -Parent) "envs.ps1")
+    $env_dict[$fold.Name] = "
+        Set-Location $($fold.FullName)
+        $script
+    "
+}
 
-# Build list of envs. Add "help" and "all" commands
 $env_list = $env_dict.keys
 $env_list += "help"
 $env_list += "all"
@@ -105,7 +104,7 @@ $env_list += "all"
 # Build env_string as Here-String with 'help' + all dict keys from env_dict
 $env_string = @"
 Enum envs {
-$(ForEach($item in ($env_list| Sort-Object)){"`t$item`n"})
+$(ForEach($item in ($env_list)){"`t$item`n"})
 }
 "@
 
