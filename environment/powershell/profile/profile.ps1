@@ -85,14 +85,20 @@ $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 $env_dict = @{}
 $folds = Get-ChildItem "~/Programming"
 foreach ($fold in $folds) {
+    # Filter out folders with spaces in the name as they will break the enum
+    if ($fold.Name -match " ") {
+        Write-Warning """$($fold.Name)"" not included in workon due to space in name."
+        continue
+    }
+
     if (Test-Path (Join-Path $fold.FullName ".venv")) {
-        $script = "& $(Join-Path $fold.FullName ".venv\Scripts\activate.ps1")"
+        $script = "& ""$(Join-Path $fold.FullName ".venv\Scripts\activate.ps1")"""
     } else {
         $script = "if (test-path function:deactivate) {deactivate};"
     }
 
     $env_dict[$fold.Name] = "
-        Set-Location $($fold.FullName)
+        Set-Location ""$($fold.FullName)""
         $script
     "
 }
