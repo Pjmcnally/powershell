@@ -52,7 +52,7 @@ Function Get-PowerShellRelease {
     way to download and install new versions.
     #>
 
-    if ($PSVersionTable.PSVersion.Major -le 5) {
+    if ($PSVersionTable.PSVersion.Major -ne 6) {
         return
     }
     #Using this to get rid of the nasty output Invoke-WebRequest gives you in PowerShell on the Mac
