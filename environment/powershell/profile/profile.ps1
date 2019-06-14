@@ -71,23 +71,29 @@ Function Get-PowerShellRelease {
     $ProgressPreference = $progress
 }
 
-function Update-ActivateScript {
-    <# Replaces default activate script for Python venv with personal script. #>
+function Update-VirtualEnv {
+    <# Updates newly created Python virtual environment #>
     param(
         [Parameter(
-            Mandatory=$True,
+            Mandatory=$false,
             Position=0,
             HelpMessage="Enter the path of the Python project folder")]
-        [System.IO.FileInfo]$prog_fold
+        [System.Management.Automation.PathInfo]$foldPath = $(Get-Location)
     )
+    # deactivate any active virtual env
+    if (test-path function:deactivate) {
+        deactivate
+    }
 
-    $oldActivate = Join-Path $prog_fold ".venv\Scripts\Activate.ps1" -Resolve
-    $newActivate = Resolve-Path "~\Programming\powershell\environment\python\activate.ps1"
+    # Replace default activate script for Python venv with personal script.
+    $localActivate = Join-Path $foldPath ".venv\Scripts\Activate.ps1" -Resolve
+    $sourceActivate = Resolve-Path "~\Programming\powershell\environment\python\activate.ps1"
+    Rename-Item -Path $localActivate -newName "$localActivate.old"
+    Copy-Item -Path $sourceActivate  -Destination $localActivate
 
-    Rename-Item -Path $oldActivate -newName "$oldActivate.old"
-    Copy-Item -Path $newActivate  -Destination $oldActivate
-
-    python -m pip install --upgrade pip
+    # Activate new venv and update python install tools
+    & $localActivate
+    python -m pip install --upgrade pip setuptools wheel
 }
 
 <# Commands to run before every session. #>
