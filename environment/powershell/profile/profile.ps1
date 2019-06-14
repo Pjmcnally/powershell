@@ -1,4 +1,5 @@
-<#  Define functions for Powershell #>
+<#  Define functions for Powershell Profile  #>
+Set-StrictMode -Version latest
 
 # This function allows me to switch locations and environments with a
 # prefaced 'workon' command. This is similar to Linux and python virtualenv
@@ -70,6 +71,25 @@ Function Get-PowerShellRelease {
     $ProgressPreference = $progress
 }
 
+function Update-ActivateScript {
+    <# Replaces default activate script for Python venv with personal script. #>
+    param(
+        [Parameter(
+            Mandatory=$True,
+            Position=0,
+            HelpMessage="Enter the path of the Python project folder")]
+        [System.IO.FileInfo]$prog_fold
+    )
+
+    $oldActivate = Join-Path $prog_fold ".venv\Scripts\Activate.ps1" -Resolve
+    $newActivate = Resolve-Path "~\Programming\powershell\environment\python\activate.ps1"
+
+    Rename-Item -Path $oldActivate -newName "$oldActivate.old"
+    Copy-Item -Path $newActivate  -Destination $oldActivate
+
+    python -m pip install --upgrade pip
+}
+
 <# Commands to run before every session. #>
 # Posh Git Settings:
 Import-Module posh-git
@@ -83,8 +103,7 @@ $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 # ~/Programming folder. Any folders that exist outside of this folder can be
 # symbolically linked back to this folder.
 $env_dict = @{}
-$folds = Get-ChildItem "~/Programming"
-foreach ($fold in $folds) {
+foreach ($fold in Get-ChildItem "~/Programming") {
     # Filter out folders with spaces in the name as they will break the enum
     if ($fold.Name -match " ") {
         Write-Warning """$($fold.Name)"" not included in workon due to space in name."
