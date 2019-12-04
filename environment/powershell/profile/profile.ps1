@@ -96,6 +96,29 @@ function Update-VirtualEnv {
     python -m pip install --upgrade pip setuptools wheel
 }
 
+function Enable-SsmsDarkMode {
+    # File location for SSMS config file
+    $file = 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\ssms.pkgundef'
+
+    # Regex pattern to match line to replace - Declare Multiline (m) option to use ^ and $ in multiline string
+    $lineRgx = '(?m)^\[\$RootKey\$\\Themes\\{1ded0138-47ce-435e-84ef-9ec1f439b749}\](\n|\r|$)'
+    $replace = '// [$RootKey$\Themes\{1ded0138-47ce-435e-84ef-9ec1f439b749}]'
+
+    # Save copy of original file in case of error
+    Copy-Item -Path $file -Destination "$file.orig"
+
+    $text = Get-Content $file -Raw
+    $newText = $text -replace $lineRgx, $replace
+    if ($text -ne $newText) {
+        Write-Host "Updating file"
+        $newText | Out-File $file
+    } else {
+        Write-Host "No change required"
+    }
+}
+
+Enable-SsmsDarkMode
+
 <# Commands to run before every session. #>
 # Posh Git Settings:
 Import-Module posh-git
