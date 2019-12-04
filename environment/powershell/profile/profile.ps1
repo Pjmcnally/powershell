@@ -117,8 +117,6 @@ function Enable-SsmsDarkMode {
     }
 }
 
-Enable-SsmsDarkMode
-
 <# Commands to run before every session. #>
 # Posh Git Settings:
 Import-Module posh-git
