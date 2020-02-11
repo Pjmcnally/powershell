@@ -24,13 +24,15 @@ function workon {
     } elseif ($project -eq 'all') {  # Update all projects
         $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
             Workon $_.key
-            Write-Host "`r`nUpdating $($_.key)"
-            Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
-            Write-Host "========================="
-            git fetch --all --prune
-            git checkout master
-            git pull
-            git push
+            if (Test-Path "./.git") {  # Test if git directory is preset.
+                Write-Host "`r`nUpdating $($_.key)"
+                Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
+                Write-Host "========================="
+                git fetch --all --prune
+                git checkout master
+                git pull
+                git push
+            }
         }
 
         # Reset everything back to normal
