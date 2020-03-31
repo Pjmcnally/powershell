@@ -119,6 +119,12 @@ function Enable-SsmsDarkMode {
     }
 }
 
+function Repair-MyPc {
+    dism.exe /online /cleanup-image /ScanHealth
+    dism.exe /online /cleanup-image /RestoreHealth
+    sfc /ScanNow
+}
+
 <# Commands to run before every session. #>
 # Posh Git Settings:
 Import-Module posh-git
