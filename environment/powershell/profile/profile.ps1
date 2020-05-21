@@ -123,6 +123,7 @@ function Repair-MyPc {
     dism.exe /online /cleanup-image /ScanHealth
     dism.exe /online /cleanup-image /RestoreHealth
     sfc /ScanNow
+    ChkDsk C: /f /r /x /b
 }
 
 <# Commands to run before every session. #>
