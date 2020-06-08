@@ -120,9 +120,18 @@ function Enable-SsmsDarkMode {
 }
 
 function Repair-MyPc {
+    # Scan and repair windows image
     dism.exe /online /cleanup-image /ScanHealth
     dism.exe /online /cleanup-image /RestoreHealth
+
+    # Use System File Checker to scan for issues
     sfc /ScanNow
+
+    # Re-register all windows apps
+    Get-AppXPackage | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+
+    # Scan HD with check disk (Reboot required)
+    chkdsk /x /f /r
 }
 
 <# Commands to run before every session. #>
