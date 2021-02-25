@@ -48,31 +48,6 @@ function workon {
     }
 }
 
-Function Get-PowerShellRelease {
-    <# Pulled from: http://www.virtu-al.net/2017/03/27/powershell-core-date/
-
-    Look into this https://github.com/jdhitsolutions/PSReleaseTools as a
-    way to download and install new versions.
-    #>
-
-    if ($PSVersionTable.PSVersion.Major -ne 6) {
-        return
-    }
-    #Using this to get rid of the nasty output Invoke-WebRequest gives you in PowerShell on the Mac
-    $progress = $ProgressPreference
-    $ProgressPreference = "SilentlyContinue"
-    $JSON = Invoke-WebRequest "https://api.github.com/repos/powershell/powershell/releases/latest" | ConvertFrom-Json
-    If ($PSVersionTable.GitCommitId) {
-        If ($JSON.tag_name -ne "v$($PSVersionTable.GitCommitId)") {
-            Write-Output "New version of PowerShell available!"
-            $JSON.body
-        } Else {
-            "PowerShell is currently up to date!"
-        }
-    }
-    $ProgressPreference = $progress
-}
-
 function Update-VirtualEnv {
     <# Updates newly created Python virtual environment #>
     param(
@@ -127,12 +102,14 @@ function Repair-MyPc {
     # Use System File Checker to scan for issues
     sfc /ScanNow
 
+    <#
     # Re-register all windows apps
     Get-AppXPackage | ForEach-Object {
         Add-AppxPackage `
             -DisableDevelopmentMode `
             -Register "$($_.InstallLocation)\AppXManifest.xml"
     }
+    #>
 
     # Scan HD with check disk (Reboot required)
     chkdsk /x /f /r
@@ -193,5 +170,3 @@ $(ForEach($item in ($env_list)){"`t$item`n"})
 Invoke-Expression $env_string
 Remove-Variable env_string
 Remove-Variable env_list
-
-Get-PowerShellRelease
