@@ -138,6 +138,14 @@ function Repair-MyPc {
     chkdsk /x /f /r
 }
 
+function Backup-Hades {
+    $hadesSaveGamePath = "Z:\Documents\Saved Games\Hades"
+    $backupPath = "Z:\Documents\Saved Games\Backup\Hades\"
+
+    Get-ChildItem $hadesSaveGamePath | Copy-Item -Destination $backupPath -Force
+}
+Set-Alias -Name "bh" -Value Backup-Hades
+
 <# Commands to run before every session. #>
 # Posh Git Settings:
 Import-Module posh-git
