@@ -1,3 +1,5 @@
+#Requires -Module posh-git
+
 <#  Define functions for Powershell Profile  #>
 Set-StrictMode -Version latest
 
