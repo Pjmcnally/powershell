@@ -9,8 +9,8 @@ function timer_wrapper($func, $name="", $arg=$Null) {
     }
 
     $end = Get-Date
-    $opp_time = New-Timespan $start $end
-    Write-Host "Opperation Complete"
+    $opp_time = New-TimeSpan $start $end
+    Write-Host "Operation Complete"
     Write-Host ("Time required = {0:g}`r`n" -f $opp_time)
 
     return $return
