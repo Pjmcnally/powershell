@@ -1,24 +1,6 @@
-function timer_wrapper($func, $name="", $arg=$Null) {
-    Write-Host "`r`nStarting function: $name"
-    $start = Get-Date
+function Remove-InvalidFileNameChars($string) {
+    $badChars = [System.IO.Path]::GetInvalidFileNameChars() -join ""
+    $result = $string -replace $badChars, ""
 
-    if ($arg) {
-        $return = $func.Invoke($arg)
-    } else {
-        $return = $func.Invoke()
-    }
-
-    $end = Get-Date
-    $opp_time = New-TimeSpan $start $end
-    Write-Host "Operation Complete"
-    Write-Host ("Time required = {0:g}`r`n" -f $opp_time)
-
-    return $return
-}
-
-function clean_file_name($name) {
-    $bad_chars = [System.IO.Path]::GetInvalidFileNameChars() -join ""
-    $res = $name -replace $bad_pat, ""
-
-    return $res
+    return $result
 }
