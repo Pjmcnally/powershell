@@ -54,10 +54,10 @@ function Update-VirtualEnv {
     <# Updates newly created Python virtual environment #>
     param(
         [Parameter(
-            Mandatory=$false,
+            Mandatory=$true,
             Position=0,
-            HelpMessage="Enter the path of the Python project folder")]
-        [System.Management.Automation.PathInfo]$foldPath = $(Get-Location)
+            HelpMessage="Enter the path of the Python environment")]
+        [string]$envPath
     )
     # deactivate any active virtual env
     if (test-path function:deactivate) {
@@ -65,12 +65,14 @@ function Update-VirtualEnv {
     }
 
     # Replace default activate script for Python venv with personal script.
-    $localActivate = Join-Path $foldPath ".venv\Scripts\Activate.ps1" -Resolve
+    Write-Host "Replacing Activate.ps1 file"
+    $localActivate = Join-Path $envPath "Scripts\Activate.ps1" -Resolve
     $sourceActivate = Resolve-Path "~\Programming\powershell\environment\python\activate.ps1"
     Rename-Item -Path $localActivate -newName "$localActivate.old"
     Copy-Item -Path $sourceActivate  -Destination $localActivate
 
     # Activate new venv and update python install tools
+    Write-Host "Activating virtual environment & updating Pip, SetupTools, & Wheel"
     & $localActivate
     python -m pip install --upgrade pip setuptools wheel
 }
