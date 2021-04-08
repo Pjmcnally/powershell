@@ -50,7 +50,7 @@ function workon {
     }
 }
 
-function Update-VirtualEnv {
+function New-PythonEnv {
     <# Updates newly created Python virtual environment #>
     param(
         [Parameter(
@@ -64,6 +64,10 @@ function Update-VirtualEnv {
         deactivate
     }
 
+    # Create new Virtual Environment
+    Write-Host "Creating new virtual environment: $envPath"
+    python -m venv $envPath
+
     # Replace default activate script for Python venv with personal script.
     Write-Host "Replacing Activate.ps1 file"
     $localActivate = Join-Path $envPath "Scripts\Activate.ps1" -Resolve
@@ -75,6 +79,28 @@ function Update-VirtualEnv {
     Write-Host "Activating virtual environment & updating Pip, SetupTools, & Wheel"
     & $localActivate
     python -m pip install --upgrade pip setuptools wheel
+}
+
+function Update-PythonEnv {
+    <# Updates newly created Python virtual environment #>
+    param(
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            HelpMessage="Enter the path of the Python environment")]
+        [string]$envPath
+    )
+    # deactivate any active virtual env
+    if (test-path function:deactivate) {
+        deactivate
+    }
+
+    # Getting full path to envPath
+    $fullPath = Resolve-Path $envPath -ErrorAction Stop
+
+    # Updating Virtual Env
+    Write-Host "Updating Python Environment: $fullPath"
+    python -m venv $fullPath --upgrade
 }
 
 function Enable-SsmsDarkMode {
@@ -105,15 +131,6 @@ function Repair-MyPc {
 
     # Use System File Checker to scan for issues
     sfc /ScanNow
-
-    <#
-    # Re-register all windows apps
-    Get-AppXPackage | ForEach-Object {
-        Add-AppxPackage `
-            -DisableDevelopmentMode `
-            -Register "$($_.InstallLocation)\AppXManifest.xml"
-    }
-    #>
 
     # Scan HD with check disk (Reboot required)
     chkdsk /x /f /r
