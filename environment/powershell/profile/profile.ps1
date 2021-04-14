@@ -35,14 +35,16 @@ function workon {
                 }
 
                 Write-Host "`r`nUpdating $($_.key)"
-                Write-Host "Default Branch => $currentBranch"
+                Write-Host "Default Branch => $defaultBranch"
                 Write-Host "Current Branch => $currentBranch"
                 Write-Host "========================="
                 git fetch --all --prune
                 git checkout $defaultBranch
                 git pull
                 git push
-                git checkout $currentBranch
+                if ($defaultBranch -ne $currentBranch) {
+                    git checkout $currentBranch
+                }
             }
         }
 
