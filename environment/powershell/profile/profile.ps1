@@ -27,13 +27,22 @@ function workon {
         $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
             Workon $_.key
             if (Test-Path "./.git") {  # Test if git directory is preset.
+                $currentBranch = git rev-parse --abbrev-ref HEAD
+                if ($_.key -in ("IPTools", "DevOps")) {
+                    $defaultBranch = "master"
+                } else {
+                    $defaultBranch = "main"
+                }
+
                 Write-Host "`r`nUpdating $($_.key)"
-                Write-Host "Branch => $(git rev-parse --abbrev-ref HEAD)"
+                Write-Host "Default Branch => $currentBranch"
+                Write-Host "Current Branch => $currentBranch"
                 Write-Host "========================="
                 git fetch --all --prune
-                git checkout master
+                git checkout $defaultBranch
                 git pull
                 git push
+                git checkout $currentBranch
             }
         }
 
