@@ -147,6 +147,10 @@ function Repair-MyPc {
     chkdsk /x /f /r
 }
 
+function Reset-Time {
+    W32tm /resync /force
+}
+
 <# Commands to run before every session. #>
 # Posh Git Settings:
 Import-Module posh-git
