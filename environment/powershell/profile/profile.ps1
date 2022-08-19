@@ -3,6 +3,10 @@
 <#  Define functions for Powershell Profile  #>
 Set-StrictMode -Version latest
 
+function Check-Logs {
+    & "\\fs01.bhip.local\Share\DevOps\Live\Scripts\PowerShell\Manual\Logs\Get-ErrorsFromErrorLog.ps1" -s "\\ps01.bhip.local\Hosting\PluginServer\Logs\" -r "plugins"
+}
+
 # This function allows me to switch locations and environments with a
 # prefaced 'workon' command. This is similar to Linux and python virtualenv
 function workon {
@@ -189,9 +193,9 @@ $env_list += "all"
 
 # Build env_string as Here-String with 'help' + all dict keys from env_dict
 $env_string = @"
-Enum envs {
-$(ForEach($item in ($env_list)){"`t$item`n"})
-}
+    Enum envs {
+        $(ForEach($item in ($env_list)){"`t$item`n"})
+    }
 "@
 
 # Invoke env_string to create Enum envs and cleanup vars
