@@ -1,8 +1,9 @@
 #Requires -Module posh-git
 
-<#  Define functions for Powershell Profile  #>
+<# Set misc variables #>
 Set-StrictMode -Version latest
 
+<#  Define functions for PowerShell Profile  #>
 function Check-Logs {
     & "\\fs01.bhip.local\Share\DevOps\Live\Scripts\PowerShell\Manual\Logs\Get-ErrorsFromErrorLog.ps1" -s "\\ps01.bhip.local\Hosting\PluginServer\Logs\" -r "plugins"
 }
@@ -12,25 +13,28 @@ function Check-Logs {
 function workon {
     param(
         [Parameter(
-            Mandatory=$True,
-            Position=0,
-            HelpMessage="Enter the project name or 'help' for list of projects.")]
+            Mandatory = $True,
+            Position = 0,
+            HelpMessage = "Enter the project name or 'help' for list of projects.")]
         [envs]$env_name
     )
 
     # Convert param to string to use as dict key
     $project = ($env_name.ToString())
 
-    if ($project -eq 'help') {  # Display help text
+    if ($project -eq 'help') {
+        # Display help text
         Write-Host ("{0,-15}{1}" -f "`nProject Name", "Code run")
         Write-Host ("{0,-15}{1}" -f "============", "========")
         $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
             Write-Host ("{0,-15}{1}" -f $_.key, $_.value)
         }
-    } elseif ($project -eq 'all') {  # Update all projects
+    } elseif ($project -eq 'all') {
+        # Update all projects
         $env_dict.GetEnumerator() | Sort-Object Name | ForEach-Object {
             Workon $_.key
-            if (Test-Path "./.git") {  # Test if git directory is preset.
+            if (Test-Path "./.git") {
+                # Test if git directory is preset.
                 $currentBranch = git rev-parse --abbrev-ref HEAD
                 if ($_.key -in ("IPTools", "DevOps")) {
                     $defaultBranch = "master"
@@ -54,12 +58,14 @@ function workon {
 
         # Reset everything back to normal
         Set-Location ~
-        if(Test-Path function:deactivate) {deactivate}
-    } else {  # Run command associated with key
+        if (Test-Path function:deactivate) { deactivate }
+    } else {
+        # Run command associated with key
         Try {
-            invoke-expression ($env_dict.$project) -ErrorAction stop
+            Invoke-Expression ($env_dict.$project) -ErrorAction stop
             return
-        } Catch {  # Error out on invalid command
+        } Catch {
+            # Error out on invalid command
             Write-Host "Not a valid command for workon"
         }
     }
@@ -69,13 +75,13 @@ function New-PythonEnv {
     <# Updates newly created Python virtual environment #>
     param(
         [Parameter(
-            Mandatory=$true,
-            Position=0,
-            HelpMessage="Enter the path of the Python environment")]
+            Mandatory = $true,
+            Position = 0,
+            HelpMessage = "Enter the path of the Python environment")]
         [string]$envPath
     )
     # deactivate any active virtual env
-    if (test-path function:deactivate) {
+    if (Test-Path function:deactivate) {
         deactivate
     }
 
@@ -87,8 +93,8 @@ function New-PythonEnv {
     Write-Host "Replacing Activate.ps1 file"
     $localActivate = Join-Path $envPath "Scripts\Activate.ps1" -Resolve
     $sourceActivate = Resolve-Path "~\Programming\powershell\environment\python\activate.ps1"
-    Rename-Item -Path $localActivate -newName "$localActivate.old"
-    Copy-Item -Path $sourceActivate  -Destination $localActivate
+    Rename-Item -Path $localActivate -NewName "$localActivate.old"
+    Copy-Item -Path $sourceActivate -Destination $localActivate
 
     # Activate new venv and update python install tools
     Write-Host "Activating virtual environment & updating Pip, SetupTools, & Wheel"
@@ -100,13 +106,13 @@ function Update-PythonEnv {
     <# Updates newly created Python virtual environment #>
     param(
         [Parameter(
-            Mandatory=$true,
-            Position=0,
-            HelpMessage="Enter the path of the Python environment")]
+            Mandatory = $true,
+            Position = 0,
+            HelpMessage = "Enter the path of the Python environment")]
         [string]$envPath
     )
     # deactivate any active virtual env
-    if (test-path function:deactivate) {
+    if (Test-Path function:deactivate) {
         deactivate
     }
 
