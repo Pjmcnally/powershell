@@ -1,12 +1,15 @@
 #Requires -Module posh-git
 
-<# Set misc variables #>
+# Set misc variables
 Set-StrictMode -Version latest
 
-<#  Define functions for PowerShell Profile  #>
-function Check-Logs {
-    & "\\fs01.bhip.local\Share\DevOps\Live\Scripts\PowerShell\Manual\Logs\Get-ErrorsFromErrorLog.ps1" -s "\\ps01.bhip.local\Hosting\PluginServer\Logs\" -r "plugins"
-}
+# Set default encoding to UTF-8
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+
+# Setup posh-git
+Import-Module posh-git
+$GitPromptSettings.DefaultPromptPrefix = '`n'
+$GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
 
 # This function allows me to switch locations and environments with a
 # prefaced 'workon' command. This is similar to Linux and python virtualenv
@@ -123,52 +126,6 @@ function Update-PythonEnv {
     Write-Host "Updating Python Environment: $fullPath"
     python -m venv $fullPath --upgrade
 }
-
-function Enable-SsmsDarkMode {
-    # File location for SSMS config file
-    $file = 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\ssms.pkgundef'
-
-    # Regex pattern to match line to replace - Declare Multiline (m) option to use ^ and $ in multiline string
-    $lineRgx = '(?m)^\[\$RootKey\$\\Themes\\{1ded0138-47ce-435e-84ef-9ec1f439b749}\](\n|\r|$)'
-    $replace = '// [$RootKey$\Themes\{1ded0138-47ce-435e-84ef-9ec1f439b749}]'
-
-    # Save copy of original file in case of error
-    Copy-Item -Path $file -Destination "$file.orig"
-
-    $text = Get-Content $file -Raw
-    $newText = $text -replace $lineRgx, $replace
-    if ($text -ne $newText) {
-        Write-Host "Updating file"
-        $newText | Out-File $file
-    } else {
-        Write-Host "No change required"
-    }
-}
-
-function Repair-MyPc {
-    # Scan and repair windows image
-    dism.exe /online /cleanup-image /ScanHealth
-    dism.exe /online /cleanup-image /RestoreHealth
-
-    # Use System File Checker to scan for issues
-    sfc /ScanNow
-
-    # Scan HD with check disk (Reboot required)
-    chkdsk /x /f /r
-}
-
-function Reset-Time {
-    W32tm /resync /force
-}
-
-<# Commands to run before every session. #>
-# Posh Git Settings:
-Import-Module posh-git
-$GitPromptSettings.DefaultPromptPrefix = '`n'
-$GitPromptSettings.DefaultPromptSuffix = '`n$(''>'' * ($nestedPromptLevel + 1)) '
-
-# Set default encoding to UTF-8
-$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
 # Build dict containing list of all programming projects. All are located in
 # ~/Programming folder. Any folders that exist outside of this folder can be
